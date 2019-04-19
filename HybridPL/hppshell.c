@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,16 +14,18 @@ struct list {
 
 //definir funciones para los commands
 int vectorsum(char **funct);
+int vectorsub(char **funct);
+int vectormult(char **funct);
 
 //guarda los commands permitidos
 char *functs[] = {
-  "vectorsum"
+  "vectorsum","vectorsub","vectormult"
 };
 
 //siempre y cuando tengan el mismo indice, apunta a la direccion para ejecutar
 //el command dado
 int (*cmd_functs[]) (char **) = {
-  &vectorsum
+  &vectorsum, &vectorsub , &vectormult
 };
 
 //returns cuantos commands son permitidos
@@ -132,6 +135,24 @@ struct list makelist(char **funct, int startindex){
 //Necesita implementacion
 int vectorsum(char **funct){
   printf("vectorsum!\n");
+  struct list list1 = makelist(funct, 1);
+  struct list list2 = makelist(funct, list1.size + 2);
+  printf("first element:%d, list 1 size:%d\n", list1.listelements[0], list1.size);
+  printf("first element:%d, list 2 size:%d\n", list2.listelements[0], list2.size);
+  return 1;
+}
+//Template para sub
+int vectorsub(char **funct){
+  printf("vectorsub!\n");
+  struct list list1 = makelist(funct, 1);
+  struct list list2 = makelist(funct, list1.size + 2);
+  printf("first element:%d, list 1 size:%d\n", list1.listelements[0], list1.size);
+  printf("first element:%d, list 2 size:%d\n", list2.listelements[0], list2.size);
+  return 1;
+}
+//Template para mult
+int vectormult(char **funct){
+  printf("vectormult!\n");
   struct list list1 = makelist(funct, 1);
   struct list list2 = makelist(funct, list1.size + 2);
   printf("first element:%d, list 1 size:%d\n", list1.listelements[0], list1.size);
