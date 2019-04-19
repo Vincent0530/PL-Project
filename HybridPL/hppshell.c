@@ -6,6 +6,11 @@
 
 const char* delims = " ,()";
 
+struct list {
+  int size;
+  int *listelements;
+};
+
 //definir funciones para los commands
 int vectorsum(char **funct);
 
@@ -27,7 +32,7 @@ int functcount(){ return sizeof(functs)/sizeof(char *); }
 char * readline();
 char ** linetok(char *funct);
 int dofunct(char **funct);
-int * makelist(char **funct, int startindex);
+struct list makelist(char **funct, int startindex);
 
 int main(int argc, char *argv[]){
   //A medida que se introducen commands, se guardaran en <line>
@@ -107,25 +112,29 @@ int dofunct(char **funct){
   return 0;
 }
 
-int * makelist(char **funct, int startindex){
-  int *list, listindex = 0;
-  list = malloc(sizeof(int)*BUFFERSIZE);
-  int cursor;
+struct list makelist(char **funct, int startindex){
+  struct list ltr;
+  ltr.listelements = malloc(sizeof(int)*BUFFERSIZE);
+  //Comenzar asignando elementos correspondientes a la lista
+  int cursor, listindex = 0;
   cursor = atoi(strtok(funct[startindex], delims));
   while(cursor != atoi("?") || cursor != atoi("|")){
-    list[listindex] = cursor;
+    ltr.listelements[listindex] = cursor;
     listindex++;
     startindex++;
     cursor = atoi(strtok(funct[startindex], delims));
   }
-  return list;
+  ltr.size = listindex;
+  return ltr;
 }
 
 //funcion para ejecutar vectorsum
 //Necesita implementacion
 int vectorsum(char **funct){
   printf("vectorsum!\n");
-  int *list1 = makelist(funct, 1);
-  printf("first element:%d\n", list1[0]);
+  struct list list1 = makelist(funct, 1);
+  struct list list2 = makelist(funct, list1.size + 2);
+  printf("first element:%d, list 1 size:%d\n", list1.listelements[0], list1.size);
+  printf("first element:%d, list 2 size:%d\n", list2.listelements[0], list2.size);
   return 1;
 }
