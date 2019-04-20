@@ -180,5 +180,19 @@ int vectormult(char **funct){
   struct list list2 = makelist(funct, list1.size + 2);
   printf("first element:%d, list 1 size:%d\n", list1.listelements[0], list1.size);
   printf("first element:%d, list 2 size:%d\n", list2.listelements[0], list2.size);
+
+  struct list result;
+  result.listelements = malloc(sizeof(int)*BUFFERSIZE);
+
+#pragma omp parallel for num_threads(list1.size)
+  for (int i = 0; i < list1.size; i++) {
+	  result.listelements[i] = list1.listelements[i] * list2.listelements[i];
+  }
+
+  printf("result:\n");
+  for (int i = 0; i < list1.size; i++) {
+	  printf(" %d ", result.listelements[i]);
+  }
+  printf("\n");
   return 1;
 }
