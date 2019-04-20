@@ -141,11 +141,28 @@ int vectorsum(char **funct){
   printf("first element:%d, list 1 size:%d\n", list1.listelements[0], list1.size);
   printf("first element:%d, list 2 size:%d\n", list2.listelements[0], list2.size);
 
-  //Main code for creating a thread for every element in the first list.
+ /* //Main code for creating a thread for every element in the first list.
   int result=0;
   omp_set_num_threads(list1.size);
 #pragma omp parallel
-  {printf("%d \n",omp_get_thread_num());}
+  {printf("%d \n",omp_get_thread_num());}*/
+
+
+  struct list result;
+  result.listelements = malloc(sizeof(int)*BUFFERSIZE);
+
+#pragma omp parallel for num_threads(list1.size)
+  for (int i = 0; i < list1.size; i++) {
+	  result.listelements[i] = list1.listelements[i] + list2.listelements[i];
+  }
+
+  printf("result:\n");
+  for (int i = 0; i < list1.size; i++) {
+	  printf(" %d ", result.listelements[i]);
+  }
+  printf("\n");
+
+  
 
 
   return 1;
