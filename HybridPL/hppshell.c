@@ -5,7 +5,7 @@
 #include <omp.h>
 
 #define BUFFERSIZE 1024
-
+#pragma warning(disable : 4996)//No borren esto.
 const char* delims = " ,()";
 
 struct list {
@@ -143,6 +143,7 @@ void help(){
 			"\n-vectormult int int | int int     (multiplication of vectors) \n"
 			"\n(vectors can have any amount of dimensions, but both vectors must be of equal sizes)\n \n"
 			"\n to exit the program type 'exit' \n\n");
+	printf("Syntax Example:\n\nvectorsum 1 2 3 4 5 | 6 7 8 9 10\n\n");
 }
 
 //funcion para ejecutar vectorsum
