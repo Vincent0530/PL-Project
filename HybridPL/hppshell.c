@@ -59,7 +59,7 @@ int main(int argc, char *argv[]){
       command = malloc(sizeof(char)*BUFFERSIZE*BUFFERSIZE);
       command = linetok(line[index]);
       if(dofunct(command) != 0){
-        printf("succesful execution\n");
+       // printf("succesful execution\n");
       } else {
         printf("ERROR: command not found\n");
       }
@@ -141,11 +141,32 @@ int vectorsum(char **funct){
   printf("first element:%d, list 1 size:%d\n", list1.listelements[0], list1.size);
   printf("first element:%d, list 2 size:%d\n", list2.listelements[0], list2.size);
 
-  //Main code for creating a thread for every element in the first list.
+ /* //Main code for creating a thread for every element in the first list.
   int result=0;
   omp_set_num_threads(list1.size);
 #pragma omp parallel
-  {printf("%d \n",omp_get_thread_num());}
+  {printf("%d \n",omp_get_thread_num());}*/
+
+
+  struct list result;
+  result.listelements = malloc(sizeof(int)*BUFFERSIZE);
+  if(list1.size==list2.size){
+
+#pragma omp parallel for num_threads(list1.size)
+  for (int i = 0; i < list1.size; i++) {
+	  result.listelements[i] = list1.listelements[i] + list2.listelements[i];
+  }
+
+  printf("result:\n");
+  for (int i = 0; i < list1.size; i++) {
+	  printf(" %d ", result.listelements[i]);
+  }
+  printf("\n");
+  }
+  else{
+	  printf("\nError: Vectors Must be of equal size. \n");
+  }
+
 
 
   return 1;
@@ -157,6 +178,26 @@ int vectorsub(char **funct){
   struct list list2 = makelist(funct, list1.size + 2);
   printf("first element:%d, list 1 size:%d\n", list1.listelements[0], list1.size);
   printf("first element:%d, list 2 size:%d\n", list2.listelements[0], list2.size);
+
+  struct list result;
+  result.listelements = malloc(sizeof(int)*BUFFERSIZE);
+  if(list1.size==list2.size){
+	#pragma omp parallel for num_threads(list1.size)
+	 for (int i = 0; i < list1.size; i++) {
+	  result.listelements[i] = list1.listelements[i] - list2.listelements[i];
+	  }
+
+	 printf("result:\n");
+  for (int i=0; i < list1.size; i++) {
+	  printf(" %d ", result.listelements[i]);
+  }
+  printf("\n");
+  }
+  else{
+	  printf("\nError: Vectors Must be of equal size. \n");
+
+  }
+
   return 1;
 }
 //Template para mult
@@ -166,5 +207,25 @@ int vectormult(char **funct){
   struct list list2 = makelist(funct, list1.size + 2);
   printf("first element:%d, list 1 size:%d\n", list1.listelements[0], list1.size);
   printf("first element:%d, list 2 size:%d\n", list2.listelements[0], list2.size);
+
+  struct list result;
+  result.listelements = malloc(sizeof(int)*BUFFERSIZE);
+  if(list1.size==list2.size){
+
+#pragma omp parallel for num_threads(list1.size)
+  for (int i = 0; i < list1.size; i++) {
+	  result.listelements[i] = list1.listelements[i] * list2.listelements[i];
+  }
+
+  printf("result:\n");
+  for (int i = 0; i < list1.size; i++) {
+	  printf(" %d ", result.listelements[i]);
+  }
+  printf("\n");}
+
+  else{
+	  printf("\nError: Vectors Must be of equal size. \n");
+
+  }
   return 1;
 }
