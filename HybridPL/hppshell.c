@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <omp.h>
+#include <time.h>
 
 #define BUFFERSIZE 1024
 #pragma warning(disable : 4996)//No borren esto.
@@ -154,7 +155,7 @@ int vectorsum(char **funct){
   struct list list2 = makelist(funct, list1.size + 2);
   printf("first element:%d, list 1 size:%d\n", list1.listelements[0], list1.size);
   printf("first element:%d, list 2 size:%d\n", list2.listelements[0], list2.size);
-
+  int n = list1.size;
  /* //Main code for creating a thread for every element in the first list.
   int result=0;
   omp_set_num_threads(list1.size);
@@ -165,17 +166,22 @@ int vectorsum(char **funct){
   struct list result;
   result.listelements = malloc(sizeof(int)*BUFFERSIZE);
   if(list1.size==list2.size){
-
+	clock_t t;
+	t = clock();
 #pragma omp parallel for num_threads(list1.size)
-  for (int i = 0; i < list1.size; i++) {
-	  result.listelements[i] = list1.listelements[i] + list2.listelements[i];
-  }
-
+	{
+		for (int i = 0; i < n; i++) {
+			result.listelements[i] = list1.listelements[i] + list2.listelements[i];
+		}
+	}
   printf("\nresult: ");
-  for (int i = 0; i < list1.size; i++) {
-	  printf(" %d ", result.listelements[i]);
+  for (int i = 0; i < n; i++) {
+	  printf(" %d \n", result.listelements[i]);
   }
-  printf("\n");
+  t = clock() - t;
+  double time_taken = ((double)t) / CLOCKS_PER_SEC;
+  printf("Time taken = %f\n", time_taken);
+
   }
   else{
 	  printf("\nError: Vectors Must be of equal size. \n");
