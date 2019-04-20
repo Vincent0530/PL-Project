@@ -17,16 +17,17 @@ struct list {
 int vectorsum(char **funct);
 int vectorsub(char **funct);
 int vectormult(char **funct);
+void help();
 
 //guarda los commands permitidos
 char *functs[] = {
-  "vectorsum","vectorsub","vectormult"
+  "vectorsum","vectorsub","vectormult","help"
 };
 
 //siempre y cuando tengan el mismo indice, apunta a la direccion para ejecutar
 //el command dado
 int (*cmd_functs[]) (char **) = {
-  &vectorsum, &vectorsub , &vectormult
+  &vectorsum, &vectorsub , &vectormult , &help
 };
 
 //returns cuantos commands son permitidos
@@ -132,6 +133,18 @@ struct list makelist(char **funct, int startindex){
   return ltr;
 }
 
+void help(){
+	printf("\n\n *****************HELP PAGE******************\n");
+	printf("\n Authors:Bernardo Jr. Sein, Coralys Cortes, Manuel Castañeda, Vincent Prado \n ");
+	printf("\n***** This is a hybrid language which automatically uses multiple threads for each function currently supported*****\n");
+	printf("Currently supported functions: \n");
+	printf("\n-vectorsum int int | int int       (sumation of vectors) \n"
+			"\n-vectorsub int int | int int      (substraction of vectors) \n"
+			"\n-vectormult int int | int int     (multiplication of vectors) \n"
+			"\n(vectors can have any amount of dimensions, but both vectors must be of equal sizes)\n \n"
+			"\n to exit the program type 'exit' \n\n");
+}
+
 //funcion para ejecutar vectorsum
 //Necesita implementacion
 int vectorsum(char **funct){
@@ -157,7 +170,7 @@ int vectorsum(char **funct){
 	  result.listelements[i] = list1.listelements[i] + list2.listelements[i];
   }
 
-  printf("result:\n");
+  printf("\nresult: ");
   for (int i = 0; i < list1.size; i++) {
 	  printf(" %d ", result.listelements[i]);
   }
@@ -187,7 +200,7 @@ int vectorsub(char **funct){
 	  result.listelements[i] = list1.listelements[i] - list2.listelements[i];
 	  }
 
-	 printf("result:\n");
+	 printf("\nresult: ");
   for (int i=0; i < list1.size; i++) {
 	  printf(" %d ", result.listelements[i]);
   }
@@ -217,7 +230,7 @@ int vectormult(char **funct){
 	  result.listelements[i] = list1.listelements[i] * list2.listelements[i];
   }
 
-  printf("result:\n");
+  printf("\n result: ");
   for (int i = 0; i < list1.size; i++) {
 	  printf(" %d ", result.listelements[i]);
   }
