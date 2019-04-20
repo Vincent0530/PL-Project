@@ -20,7 +20,7 @@ int vectormult(char **funct);
 void help();
 
 //guarda los commands permitidos
-char *functs[] = {
+const char *functs[] = {
   "vectorsum","vectorsub","vectormult","help"
 };
 
@@ -42,7 +42,7 @@ struct list makelist(char **funct, int startindex);
 int main(int argc, char *argv[]){
   //A medida que se introducen commands, se guardaran en <line>
   char **line;
-  line = malloc(sizeof(char)*BUFFERSIZE*BUFFERSIZE);
+  line = (char**)malloc(sizeof(char)*BUFFERSIZE*BUFFERSIZE);
   int index = 0;
 
   while(1){
@@ -57,7 +57,7 @@ int main(int argc, char *argv[]){
       //<dofunct()> busca la funcion a ejecutar para el command dado y devuelve
       //un numero diferente a 0 si la encuentra. Otherwise, devuelve 0.
       char **command;
-      command = malloc(sizeof(char)*BUFFERSIZE*BUFFERSIZE);
+      command = (char**)malloc(sizeof(char)*BUFFERSIZE*BUFFERSIZE);
       command = linetok(line[index]);
       if(dofunct(command) != 0){
        // printf("succesful execution\n");
@@ -70,7 +70,7 @@ int main(int argc, char *argv[]){
 
 char * readline(){
   int c, pos = 0, bufSize = BUFFERSIZE;
-  char *read = malloc(sizeof(char)*bufSize);
+  char *read = (char*)malloc(sizeof(char)*bufSize);
   while(1){
     c = getchar();
     if(c == EOF || c == '\n'){
@@ -83,14 +83,14 @@ char * readline(){
 
     if(pos >= bufSize){
       bufSize += BUFFERSIZE;
-      read = realloc(read, bufSize);
+      read = (char*)realloc(read, bufSize);
     }
   }
 }
 
 char ** linetok(char *funct){
   char *token;
-  char **tokens = (char **) malloc(sizeof(char*)*BUFFERSIZE);
+  char **tokens = (char**) malloc(sizeof(char*)*BUFFERSIZE);
   int i = 0, counttok = 0;
   token = strtok(funct, delims);
   while(token != NULL){
@@ -99,7 +99,7 @@ char ** linetok(char *funct){
     i++;
     counttok++;
   }
-  tokens[counttok] = " ?"; //END OF TOKENS (como lo de Vincent)
+  tokens[counttok] = "?"; //END OF TOKENS (como lo de Vincent)
   return tokens;
 }
 
