@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -168,7 +167,7 @@ int vectorsum(char **funct) {
 	printf("first element:%d, list 1 size:%d\n", list1.listelements[0], list1.size);
 	printf("first element:%d, list 2 size:%d\n", list2.listelements[0], list2.size);
 	int n = list1.size;
-	
+
 
 
 	struct list result;
@@ -249,26 +248,31 @@ int vectormult(char **funct) {
 	struct list list2 = makelist(funct, list1.size + 2);
 	printf("first element:%d, list 1 size:%d\n", list1.listelements[0], list1.size);
 	printf("first element:%d, list 2 size:%d\n", list2.listelements[0], list2.size);
-	int i;
+	int n = list1.size;
 	struct list result;
 	result.listelements = malloc(sizeof(int)*BUFFERSIZE);
 	if (list1.size == list2.size) {
-
-#pragma omp parallel for //num_threads(list1.size)
-		for (i = 0; i < list1.size; i++) {
+		int chunck = 5;
+		printf("\nthreadNum = %d\n", threadNum);
+		printf("\nchunck = %d\n", chunck);
+		int i;
+		omp_set_num_threads(threadNum);
+		#pragma omp parallel for shared (list1,list2,result,n) private(i) schedule(static,chunck)
+		for (i = 0; i < n; i++) {
 			result.listelements[i] = list1.listelements[i] * list2.listelements[i];
+			printf("threadID = %d\n", omp_get_thread_num());
 		}
 
-		printf("\n result: ");
+		printf("\nresult: ");
 		for (int i = 0; i < list1.size; i++) {
 			printf(" %d ", result.listelements[i]);
 		}
 		printf("\n");
 	}
-
 	else {
 		printf("\nError: Vectors Must be of equal size. \n");
 
 	}
+
 	return 1;
 }
