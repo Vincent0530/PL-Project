@@ -8,7 +8,7 @@
 #define BUFFERSIZE 1024
 #pragma warning(disable : 4996)//No borren esto.
 const char* delims = " ,()";
-
+int threadNum;
 struct list {
   int size;
   int *listelements;
@@ -18,17 +18,18 @@ struct list {
 int vectorsum(char **funct);
 int vectorsub(char **funct);
 int vectormult(char **funct);
+void setThreadNum();
 void help();
 
 //guarda los commands permitidos
 const char *functs[] = {
-  "vectorsum","vectorsub","vectormult","help"
+  "vectorsum","vectorsub","vectormult","help","setThreadNum"
 };
 
 //siempre y cuando tengan el mismo indice, apunta a la direccion para ejecutar
 //el command dado
 int (*cmd_functs[]) (char **) = {
-  &vectorsum, &vectorsub , &vectormult , &help
+  &vectorsum, &vectorsub , &vectormult , &help, &setThreadNum
 };
 
 //returns cuantos commands son permitidos
@@ -46,7 +47,7 @@ int main(int argc, char *argv[]){
   line = (char**)malloc(sizeof(char)*BUFFERSIZE*BUFFERSIZE);
   int index = 0;
 
-  while(1){
+  while(1){	
     printf("HPPShell>>> ");
     line[index] = readline();
     printf("Entered: %s\n", line[0]);
@@ -69,6 +70,7 @@ int main(int argc, char *argv[]){
   }
 }
 
+//------------------------lexer----------------------------------
 char * readline(){
   int c, pos = 0, bufSize = BUFFERSIZE;
   char *read = (char*)malloc(sizeof(char)*bufSize);
@@ -103,6 +105,8 @@ char ** linetok(char *funct){
   tokens[counttok] = "?"; //END OF TOKENS (como lo de Vincent)
   return tokens;
 }
+//-----------------------------------------------------------------
+
 
 int dofunct(char **funct){
   char *cmd;
@@ -134,6 +138,11 @@ struct list makelist(char **funct, int startindex){
   return ltr;
 }
 
+void setThreadNum(char **funct) {
+	threadNum = atoi(funct[1]);
+	printf("\nthreadNum = %d\n", threadNum);
+}
+
 void help(){
 	printf("\n\n *****************HELP PAGE******************\n");
 	printf("\n Authors:Bernardo Jr. Sein, Coralys Cortes, Manuel Castañeda, Vincent Prado \n ");
@@ -151,7 +160,7 @@ void help(){
 //Necesita implementacion
 int vectorsum(char **funct){
   printf("vectorsum!\n");
-  struct list list1 = makelist(funct, 1);
+  struct list list1 = makelist(funct, 1);//El segundo parametro es igual a 1 porque el primera string de la lista es el comando que define la operacion
   struct list list2 = makelist(funct, list1.size + 2);
   printf("first element:%d, list 1 size:%d\n", list1.listelements[0], list1.size);
   printf("first element:%d, list 2 size:%d\n", list2.listelements[0], list2.size);
@@ -168,11 +177,12 @@ int vectorsum(char **funct){
   if(list1.size==list2.size){
 	clock_t t;
 	t = clock();
-#pragma omp parallel for num_threads(list1.size)
+#pragma omp parallel for num_threads(threadNum)
 	{
 		for (int i = 0; i < n; i++) {
 			result.listelements[i] = list1.listelements[i] + list2.listelements[i];
 		}
+		printf("omp_get_num_threads() = %d", omp_get_num_threads());
 	}
   printf("\nresult: ");
   for (int i = 0; i < n; i++) {
