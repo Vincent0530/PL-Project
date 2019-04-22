@@ -18,7 +18,7 @@ struct list {
 int vectorsum(char **funct);
 int vectorsub(char **funct);
 int vectormult(char **funct);
-void setThreadNum();
+void setThreadNum(char **funct);
 void help();
 
 //guarda los commands permitidos
@@ -174,23 +174,30 @@ int vectorsum(char **funct){
 
   struct list result;
   result.listelements = malloc(sizeof(int)*BUFFERSIZE);
+
   if(list1.size==list2.size){
-	clock_t t;
-	t = clock();
-#pragma omp parallel for num_threads(threadNum)
-	{
-		for (int i = 0; i < n; i++) {
+	//clock_t t;
+	//t = clock();
+	int chunck = 5;
+	printf("\nthreadNum = %d\n", threadNum);
+	printf("\nchunck = %d\n", chunck);
+	int i;
+	omp_set_num_threads(threadNum);
+	#pragma omp parallel for shared (list1,list2,result,n) private(i) schedule(static,chunck)
+		for (i = 0; i < n; i++) {
 			result.listelements[i] = list1.listelements[i] + list2.listelements[i];
+			printf("threadID = %d\n", omp_get_thread_num());
 		}
-		printf("omp_get_num_threads() = %d", omp_get_num_threads());
-	}
+		
+	
   printf("\nresult: ");
   for (int i = 0; i < n; i++) {
-	  printf(" %d \n", result.listelements[i]);
+	  printf(" %d ", result.listelements[i]);
   }
-  t = clock() - t;
-  double time_taken = ((double)t) / CLOCKS_PER_SEC;
-  printf("Time taken = %f\n", time_taken);
+  printf("\n");
+  //t = clock() - t;
+  //double time_taken = ((double)t) / CLOCKS_PER_SEC;
+ // printf("Time taken = %f\n", time_taken);
 
   }
   else{
@@ -208,12 +215,12 @@ int vectorsub(char **funct){
   struct list list2 = makelist(funct, list1.size + 2);
   printf("first element:%d, list 1 size:%d\n", list1.listelements[0], list1.size);
   printf("first element:%d, list 2 size:%d\n", list2.listelements[0], list2.size);
-
+  int i;
   struct list result;
   result.listelements = malloc(sizeof(int)*BUFFERSIZE);
   if(list1.size==list2.size){
-	#pragma omp parallel for num_threads(list1.size)
-	 for (int i = 0; i < list1.size; i++) {
+	#pragma omp parallel for //num_threads(list1.size)
+	 for (i = 0; i < list1.size; i++) {
 	  result.listelements[i] = list1.listelements[i] - list2.listelements[i];
 	  }
 
@@ -237,13 +244,13 @@ int vectormult(char **funct){
   struct list list2 = makelist(funct, list1.size + 2);
   printf("first element:%d, list 1 size:%d\n", list1.listelements[0], list1.size);
   printf("first element:%d, list 2 size:%d\n", list2.listelements[0], list2.size);
-
+  int i;
   struct list result;
   result.listelements = malloc(sizeof(int)*BUFFERSIZE);
   if(list1.size==list2.size){
 
-#pragma omp parallel for num_threads(list1.size)
-  for (int i = 0; i < list1.size; i++) {
+#pragma omp parallel for //num_threads(list1.size)
+  for (i = 0; i < list1.size; i++) {
 	  result.listelements[i] = list1.listelements[i] * list2.listelements[i];
   }
 
