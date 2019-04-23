@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
 		line[index] = readline();
 		//El command exit cierra el shell
 		if (strcmp(line[index], "exit") == 0) {
-			printf("Programa terminado.\n");
+			printf("\nPrograma terminado.\n");
 			exit(0);
 		}
 		else {
@@ -165,8 +165,13 @@ struct list makelist(char **funct, int startindex) {
  * Establece la cantidad de threads a usarse para la ejecucion de los commands en paralelo.
 */
 int setThreadNum(char **funct) {
+	if(atoi(funct[1])<0){
+		printf("Number of threads must be greater than 0. ");
+		printf("The number of threads will retain its current value: %d, please try again.\n",threadNum);
+	}
+	else{
 	threadNum = atoi(funct[1]);
-	printf("Thread number set to: %d\n", threadNum);
+	printf("Thread number set to: %d\n", threadNum);}
   return 0;
 }
 /**
