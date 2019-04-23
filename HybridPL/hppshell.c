@@ -181,6 +181,9 @@ int help() {
   printf("* vectorsub double, double, ... | double, double, ... \tResta de vectores\n");
   printf("* vectormult double, double, ... | double, double, ... \tMultiplicacion de vectores\n");
   printf("* vectordiv double, double, ... | double, double, ... \tDivision de vectores\n");
+  printf("* setthreadnum\tEstablece la cantidad de threads a usarse para la ejecucion de los commands\n");
+  printf("* help\tInformacion general\n");
+  printf("* exit\tTerminar programa\n");
   printf("\nEjemplo: vectorsum 1 2 3 4 | 1 2 3 4\n");
   return 0;
 }
