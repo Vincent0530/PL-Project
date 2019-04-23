@@ -18,6 +18,7 @@ struct list {
 int vectorsum(char **funct);
 int vectorsub(char **funct);
 int vectormult(char **funct);
+
 int vectordiv(char **funct);
 int setThreadNum(char **funct);
 int help();
@@ -136,6 +137,8 @@ int dofunct(char **funct) {
 	//Si termina sin return, command no esta currently supported.
 	return 2;
 }
+//-----------------------------------------------------------------
+
 
 /**
  * Crea una lista de los elementos introducidos por el usario.
