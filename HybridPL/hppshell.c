@@ -50,6 +50,7 @@ int main(int argc, char *argv[]) {
 	line = (char**)malloc(sizeof(char)*BUFFERSIZE*BUFFERSIZE);
 	int index = 0;
 
+	printf("\nWelcome to the Hybrid Progamming Language\n To view currently supported functions type 'help' \n\n");
 	while (1) {
 		printf("HPPShell>>> ");
 		line[index] = readline();
