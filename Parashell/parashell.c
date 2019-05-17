@@ -50,9 +50,9 @@ int main(int argc, char *argv[]) {
 	line = (char**)malloc(sizeof(char)*BUFFERSIZE*BUFFERSIZE);
 	int index = 0;
 
-	printf("\nWelcome to the Hybrid Progamming Language\n To view currently supported functions type 'help' \n\n");
+	printf("\nWelcome to Parashell: The Parallel Computing Shell Environment\n To view currently supported functions type 'help' \n\n");
 	while (1) {
-		printf("HPPShell>>> ");
+		printf("Parashell>>> ");
 		line[index] = readline();
 		//El command exit cierra el shell
 		if (strcmp(line[index], "exit") == 0) {
@@ -179,7 +179,7 @@ int setThreadNum(char **funct) {
 */
 int help() {
   printf("\n*****************HELP PAGE******************\n");
-  printf("Authors: Bernardo Jr. Sein, Coralys Cortes, Manuel Casta�eda, Vincent Prado\n");
+  printf("Authors: Bernardo Jr. Sein, Coralys Cortes, Manuel Castaneda, Vincent Prado\n");
   printf("Es un lenguaje funcional para simplificar y facilitar la ejecucion en paralelo de commands.\n");
   printf("Los vectores tienen que tener el mismo size, pero pueden ser de diferentes dimensiones.\n\n");
   printf("Lista de commands currently supported:\n");
