@@ -1,0 +1,8 @@
+﻿  Lexer.c
+c:\users\cmcsc\source\repos\pl-project\hybridpl\lexer.c(49): warning C4047: 'function': 'const size_t' differs in levels of indirection from 'const char *'
+c:\users\cmcsc\source\repos\pl-project\hybridpl\lexer.c(49): warning C4024: 'vsprintf_s': different types for formal and actual parameter 2
+c:\users\cmcsc\source\repos\pl-project\hybridpl\lexer.c(226): warning C4090: 'function': different 'const' qualifiers
+c:\users\cmcsc\source\repos\pl-project\hybridpl\lexer.c(226): warning C4047: '=': 'FILE *' differs in levels of indirection from 'errno_t'
+  main.c
+  Generating Code...
+  HybridPL.vcxproj -> C:\Users\cmcsc\source\repos\PL-Project\Debug\HybridPL.exe
